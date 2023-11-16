@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <iomanip> 
+#include <cmath> 
 using namespace std;
 void IntializationOfMatrixElements(int n, double** matrix, double** matrixs);
 void ZeroingFandAx(int n, double* F, double* Ax);

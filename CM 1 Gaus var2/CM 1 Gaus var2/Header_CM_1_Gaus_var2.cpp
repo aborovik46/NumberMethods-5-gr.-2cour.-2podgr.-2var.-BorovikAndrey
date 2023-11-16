@@ -67,8 +67,9 @@ void ExpandedMatrixComputation(int n, double** matrix, double* b,double*x) {
 		{
 			for (int j = 0; j < n; j++) {
 				swap(matrix[k][j], matrix[n - 1][j]);
-				swap(b[k], b[n - 1]);
+				
 			}
+			swap(b[k], b[n - 1]);
 		}
 	}
 	for (int i = 0; i < n; i++) {
@@ -96,7 +97,7 @@ void ExpandedMatrixComputation(int n, double** matrix, double* b,double*x) {
 }
 void CoutOfX(int n, double* x) {
 	for (int i = 0; i < n; i++) {
-		cout << "x[" << i << "]=" << x[i] << " " << endl;
+		cout << "x[" << i << "]=" <<  setprecision(17)<< x[i] << " " << endl;
 	}
 }
 void CalculationOfResidualVectorAndNorm(int n,double** matrixs, double* x,double*bs,double* F,double& Delta){
@@ -147,8 +148,6 @@ void CalculationOfdelta(int n,double*x,double* xs,double& delta) {
 		if (abs(xs[i] - x[i]) > max1) {
 			max1 = abs(xs[i] - x[i]);
 		}
-		if (i == n - 1) {
-			delta = abs(max1) / abs(max);
-		}
 	}
+		delta = abs(max1) / abs(max);
 }
