@@ -1,6 +1,6 @@
 #include "Header_CM_5_Integral_var2.h";
 double Function1(double x) {
-	return 1/ sqrt(x * x * x - 1);		
+	return 1/ (sqrt(x * x * x - 1));		
 }
 double Function2(double x,double y) {
 	return 1 / pow((x + y),2);
@@ -12,11 +12,12 @@ double CalculationByTrapezoid(double eps,double a,double b,int n, double& R) {
 	do {
 		IntegralByTrapezoidH = IntegralByTrapezoidH2;
 		h /= 2;
-		IntegralByTrapezoidH2 = ((Function1(a) + Function1(b)) * h) / 2;
+		IntegralByTrapezoidH2 = ((Function1(a) + Function1(b)) * h)/2 ;
 		for (double x = a + h; x < b; x += h)
 			IntegralByTrapezoidH2 += h * Function1(x);
 	} while (abs(IntegralByTrapezoidH2 - IntegralByTrapezoidH) >= (3 * eps));
 	R = (IntegralByTrapezoidH - IntegralByTrapezoidH2) * (0.5 * 0.5 - 1);
+	cout << IntegralByTrapezoidH << endl;
 	return IntegralByTrapezoidH2;
 }
 double CalculationBySimpson(double eps, double a, double b, int n, double& R) {

@@ -8,26 +8,22 @@ double Function2(double*a,double x) {
 }
 void CalculatingDifferentSums(int m,int N,double* x,double* SumX,double* SumY){
 	for (int i = 0; i < (m+1); i++) {
+		SumY[i] = 0;
 		for (int j = 0; j < N; j++) {
 			SumY[i] += Function1(x[j]) * pow(x[j], i);
 		}
 	}
 	for (int i = 0; i < (2*m + 1); i++) {
+		SumX[i] = 0;
 		for (int j = 0; j < N; j++) {
 			SumX[i] += pow(x[j], i);
 		}
 	}
 }
-void ZeroingSums(int m, double* SumX, double* SumY) {
-	for (int i = 0; i < (m+1); i++) {
-		SumX[i] = 0;
-		SumY[i] = 0;
-	}
-}
 void MatrixInputation(int m, double** matrix,double* b, double* SumY, double* SumX, double* x) {
-	for (int i = 0, n = 0; i < (m + 1); i++, n++) {
+	for (int i = 0; i < (m + 1); i++) {
 		for (int j = 0; j < (m + 1); j++ ) {
-			matrix[i][j] = SumX[j + n];
+			matrix[i][j] = SumX[j + i];
 		}
 		b[i] = SumY[i];
 	}
@@ -56,7 +52,15 @@ void ExpandedMatrixComputation(int m, double** matrix, double* b, double* a) {
 				count++;
 			}
 		}
-		if (count == 2)
+		if (count == 3)
+		{
+			for (int j = 0; j < m + 1; j++) {
+				swap(matrix[k][j], matrix[m-1][j]);
+
+			}
+			swap(b[k], b[m-1]);
+		}
+		if (count == 4)
 		{
 			for (int j = 0; j < m+1; j++) {
 				swap(matrix[k][j], matrix[m][j]);
@@ -106,7 +110,7 @@ void CoutInitialMatrix(int n, double** matrix, double* b) {
 }
 void IntializationOfMatixElements(int m, double** matrix) {
 	for (int i = 0; i < m+1; i++) {
-		matrix[i] = new double[i];
+		matrix[i] = new double[m+1];
 	}
 }void CalculationOfEPS(int m,int n,double S ,double* a,double* x) {
 	for (int i = 0; i < m+1; i++) {
@@ -117,7 +121,7 @@ void IntializationOfMatixElements(int m, double** matrix) {
 		S += tmp * tmp;
 	}
 	S /= n - m - 1;
-	sqrt(S);
+	S=sqrt(S);
 }
 void CoutOfX(int n, double* x) {
 	for (int i = 0; i < n; i++) {
