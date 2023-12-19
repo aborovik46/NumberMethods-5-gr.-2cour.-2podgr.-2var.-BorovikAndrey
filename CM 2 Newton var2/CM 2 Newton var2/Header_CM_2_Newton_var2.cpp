@@ -14,22 +14,14 @@ void CalculatingOfJacobi(double* x, double* y, int i, double** matrix) {
 }
 void CalculatingOfAnotherJacobi(double* x, double* y, int i,double M, double** matrix) {
 
-	matrix[0][0] = (((x[i]*x[i]*M - y[i] - 6 * log10(x[i]) - 1)-(x[i] - y[i] - 6 * log10(x[i]) - 1))/(x[i]*M));
+	matrix[0][0] = (((x[i]+x[i]*M - y[i] - 6 * log10(x[i] + x[i] * M) - 1)-(x[i] - y[i] - 6 * log10(x[i]) - 1))/(x[i]*M));
 	matrix[0][1] = (((x[i] - y[i] - y[i] * M - 6 * log10(x[i]) - 1) - (x[i] - y[i] - 6 * log10(x[i]) - 1)) / (y[i] * M));
 	matrix[1][0] = (((x[i]+x[i]*M - 3 * y[i] - 6 * log10(y[i]) - 2) - (x[i] - 3 * y[i] - 6 * log10(y[i]) - 2))/ (x[i] * M));
 	matrix[1][1] = (((x[i] - 3 * (y[i]+y[i]*M) - 6 * log10(y[i] + y[i] * M) - 2)- (x[i] - 3 * y[i] - 6 * log10(y[i]) - 2))/ (y[i] * M));
 }
-void IntializationOfMatixElements(int n, double** matrix, double** matrixs) {
+void IntializationOfMatixElements(int n, double** matrix) {
 	for (int i = 0; i < n; i++) {
 		matrix[i] = new double[n];
-		matrixs[i] = new double[n];
-	}
-}
-void SavingElements(int n, double** matrix, double** matrixs) {
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			matrixs[i][j] = matrix[i][j];
-		}
 	}
 }
 void ZeroingFAnddxAndxAndy(int NIT, double* F, double* dx,double*x,double*y) {
@@ -94,7 +86,7 @@ void ExpandedMatrixComputation(int n, double** matrix, double* F, double* dx, in
 
 	}
 }
-void ApproximationOfValue(int n,int ch,double M,double* dx, double* dx1, double* dx2, double* x, double* y, int i, double* F, double* F1, double* F2, double** matrix, double** matrixs) {
+void ApproximationOfValue(int n,int NIT,int ch,double M,double* dx, double* dx1, double* dx2, double* delta1, double* delta2, double* x, double* y, int i, double* F, double* F1, double* F2, double** matrix) {
 	dx[0] = 0;
 	dx[1] = 0;
 	CalculatingOfF(x, y, i, F);
@@ -110,9 +102,10 @@ void ApproximationOfValue(int n,int ch,double M,double* dx, double* dx1, double*
 		exit;
 		break;
 	}
-	CoutInitialMatrix(n,i,matrix,F);
+	if ((i == NIT - 1)||(1 == CalculationOfdelta(i,delta1,delta2,x,y,F))) {
+		CoutInitialMatrix(n, i, matrix, F);
+	}
 	SavingResidualVector( i, F1, F2, F);
-	SavingElements(n, matrix, matrixs);
 	ExpandedMatrixComputation(n, matrix, F, dx,i);
 	SavingDeltaX(i, dx1, dx2, dx);
 	x[i + 1] = x[i] + dx1[i];
@@ -164,10 +157,11 @@ int CalculationOfdelta(int i,double* delta1, double* delta2, double* x,double* y
 		max = abs(F[0]);
 	}
 	if (abs(x[i]) >= 1) {
-		max1 = abs(x[i] - x[i - 1]);
+		
+		max1 = abs((x[i] - x[i - 1]) / x[i]);
 	}
 	else {
-		max1 = abs((x[i] - x[i - 1]) / x[i]);
+		max1 = abs(x[i] - x[i - 1]);
 	}
 	if (abs(y[i]) >= 1) {
 		if (max1 < abs(y[i] - y[i - 1])) {
