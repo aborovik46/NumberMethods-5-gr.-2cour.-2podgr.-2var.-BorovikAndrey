@@ -16,6 +16,8 @@ int main()
     double c = 1;//Данные из 30 варианта
     double d = 2;//Данные из 30 варианта
     int n=2;
+    double M=1;
+    double N=1;
     int ch;
     cout << "With what error do you want to calculate the integrals?(1 - 10^-4,2 - 10^-5)"<<endl;
     cin >> ch;
@@ -33,7 +35,7 @@ int main()
         exit(0);
     break;
     }
-    cout << "Area by Simpson cubaturn : " << CalculatingBySimpsonCubaturn(a2,b2,c,d) << endl;
+    cout << "Area by Simpson cubaturn : " << CalculatingBySimpsonCubaturn(a2,b2,c,d,M,N) << endl;
 
 
 

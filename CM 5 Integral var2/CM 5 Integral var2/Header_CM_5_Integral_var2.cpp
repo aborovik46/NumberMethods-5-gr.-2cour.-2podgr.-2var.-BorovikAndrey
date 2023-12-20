@@ -44,15 +44,19 @@ double CalculationBySimpson(double eps, double a, double b, int n, double& R) {
 	R = (IntegralBySimpsonH - IntegralBySimpsonH2) * (0, 5 * 0, 5 * 0, 5 * 0, 5 - 1);
 	return IntegralBySimpsonH2;
 }
-double CalculatingBySimpsonCubaturn(double a2,double b2,double c,double d) {		
-	double hx = (b2 - a2) / 2;
-	double hy = (d - c) / 2;
+double CalculatingBySimpsonCubaturn(double a2,double b2,double c,double d,double M,double N) {		
+	double hx = (b2 - a2) / (2*N);
+	double hy = (d - c) / (2*M);
 	double IntegralBySimpsonCubaturn = 0;
-	IntegralBySimpsonCubaturn += Function2(a2, c) + 4 * Function2(a2 + hx, c) +	 
-		Function2(b2, c) + 4 * Function2(a2, c + hy) +
-		16 * Function2(a2 + hx, c + hy) + 4 * Function2(b2, c + hy) +
-		Function2(a2, d) + 4 * Function2(a2 + hx, d) +
-		Function2(b2, d);
+	for (int i = 0; i <= N - 1; i++) {
+		for (int j = 0; j <= M - 1; j++) {
+			IntegralBySimpsonCubaturn += Function2(a2, c) + 4 * Function2(a2 + hx, c) +
+				Function2(b2, c) + 4 * Function2(a2, c + hy) +
+				16 * Function2(a2 + hx, c + hy) + 4 * Function2(b2, c + hy) +
+				Function2(a2, d) + 4 * Function2(a2 + hx, d) +
+				Function2(b2, d);
+		}
+	}
 	IntegralBySimpsonCubaturn *= (hx * hy) / 9;
 	return IntegralBySimpsonCubaturn;
 }
